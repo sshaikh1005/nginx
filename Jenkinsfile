@@ -5,7 +5,7 @@ pipeline {
         stage('Clone') {
             steps {
                 script {
-                    git branch: 'main', url: 'https://github.com/sshaikh1005/nginx.git'
+                    git clone "https://github.com/sshaikh1005/nginx.git"
                 }
             }
         }
