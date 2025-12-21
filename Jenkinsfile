@@ -22,7 +22,7 @@ pipeline {
                             <title>Custom Nginx Page</title>
                         </head>
                         <body>
-                            <h1>Welcome to my custom Nginx page served by Jenkins!</h1>
+                            <h3>Welcome to my custom Nginx page served by Jenkins!</h3>
                             <h3>GitHub Webhook added...</h3>
                         </body>
                     </html>
