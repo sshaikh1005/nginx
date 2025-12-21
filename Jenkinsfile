@@ -1,41 +1,39 @@
 pipeline {
     agent any
-    
+
     stages {
-        stage('Clone') {
+
+        stage('Clone Repository') {
             steps {
-                script {
-                    git clone "https://github.com/sshaikh1005/nginx.git"
-                }
+                git branch: 'main',
+                    url: 'https://github.com/sshaikh1005/nginx.git'
             }
         }
-        stage('Custom Page to Nginx') {
+
+        stage('Install Nginx & Deploy Custom Page') {
             steps {
-                script {
-                    sh 'sudo apt update'
-                    sh 'sudo apt install nginx -y'
-                    def htmlContent = """
+                sh '''
+                    sudo apt-get update -y
+                    sudo apt-get install nginx -y
+
+                    sudo tee /var/www/html/index.html > /dev/null <<'EOF'
                     <html>
                         <head>
                             <title>Custom Nginx Page</title>
                         </head>
                         <body>
                             <h1>Welcome to my custom Nginx page served by Jenkins!</h1>
-                            <h3>Github Webhook added...</h3>
+                            <h3>GitHub Webhook added...</h3>
                         </body>
                     </html>
-                    """
-                    sh """
-                    echo '${htmlContent}' | sudo tee /var/www/html/index.html
-                    """
-                }
+                    EOF
+                '''
             }
         }
+
         stage('Restart Nginx') {
             steps {
-                script {
-                    sh 'sudo systemctl restart nginx'
-                }
+                sh 'sudo systemctl restart nginx'
             }
         }
     }
